@@ -1,9 +1,45 @@
-{% if book_list %}
-    <ul>
+{% extends 'base.html' %}
+{% block content %}
+<table class="table" xmlns="http://www.w3.org/1999/html">
+    <thead>
+    <tr class="text-center thead-dark">
+        <th style="width:50%">책제목</th>
+        <th>저자</th>
+        <th>출판사</th>
+        <th>대여자</th>
+        <th>대여일시</th>
+        <th>담당자</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if book_list %}
         {% for book in book_list %}
-            <li><a href="/community/{{book.id}}/" >{{book.title}}</a></li>
+        <tr class="text-center">
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>
+                {% if book.borrower %}
+                    {{ book.borrower }}
+                {% endif %}
+            </td>
+            <td>
+                {% if book.borrow_date %}
+                    {{ book.borrow_date }}
+                {% endif %}
+            <td>
+                {% if book.manager %}
+                    {{ book.manager }}
+                {% endif %}
+            </td>`
+        </tr>
         {% endfor %}
     </ul>
-{% else %}
-<h2>도서 리스트가 없습니다.</h2><
-{% endif %}
+    {% else %}
+    <tr>
+        <td colspan="3">도서 리스트가 없습니다.</td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>
+{% endblock %}
