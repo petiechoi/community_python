@@ -1,0 +1,9 @@
+{% if book_list %}
+    <ul>
+        {% for book in book_list %}
+            <li><a href="/community/{{book.id}}/" >{{book.title}}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+<h2>도서 리스트가 없습니다.</h2><
+{% endif %}
