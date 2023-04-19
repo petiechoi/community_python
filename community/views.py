@@ -9,7 +9,7 @@ def index(request):
     context = {'book_list' : book_list}
     return render(request, 'community/book_list.html', context)
 
-def book_borrow(request):
+def book_borrow(request, book_id):
     """
     도서 대여
     """

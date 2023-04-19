@@ -3,5 +3,5 @@ from . import views
 app_name ='community'
 urlpatterns = [
     path('', views.index),
-    path('book/borrow/', views.book_borrow, name='book_borrow'),
+    path('book/borrow/<int:book_id>/', views.book_borrow, name='book_borrow'),
 ]

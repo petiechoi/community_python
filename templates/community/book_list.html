@@ -15,7 +15,7 @@
     {% if book_list %}
         {% for book in book_list %}
         <tr class="text-center">
-            <td>{{ book.title }}</td>
+            <td><a href="#" id = "borrow" class = "borrow" data-title={{ book}}> {{ book.title }}</a> </td>
             <td>{{ book.author }}</td>
             <td>{{ book.publisher }}</td>
             <td>
@@ -42,7 +42,15 @@
     {% endif %}
     </tbody>
 </table>
-<a href="{% url 'community:book_borrow' %}" class="btn btn-primary">
-    대여신청하기
-</a>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".borrow").on('click', function() {
+            let result = "'" + this.innerText + "'" + "을(를) 대여하시겠습니까?";
+            confirm(result);
+        });
+    });
+</script>
 {% endblock %}
