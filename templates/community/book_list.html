@@ -31,7 +31,7 @@
                 {% if book.manager %}
                     {{ book.manager }}
                 {% endif %}
-            </td>`
+            </td>
         </tr>
         {% endfor %}
     </ul>
@@ -42,4 +42,7 @@
     {% endif %}
     </tbody>
 </table>
+<a href="{% url 'community:book_borrow' %}" class="btn btn-primary">
+    대여신청하기
+</a>
 {% endblock %}
