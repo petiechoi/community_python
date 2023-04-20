@@ -1,15 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 # Create your views here.
 from django.contrib import messages
-from .forms import BookBorrowForm
-from .models import Book
+from .forms import BookForm, BorrowForm
+from .models import Book, Borrow
 from django.utils import timezone
-
+from django.views.decorators.csrf import csrf_exempt
 def index(request):
     book_list = Book.objects.order_by('title')
     context = {'book_list' : book_list}
     return render(request, 'community/book_list.html', context)
 
+@csrf_exempt
 def book_borrow(request, book_id):
     """
     도서 대여
@@ -18,22 +19,19 @@ def book_borrow(request, book_id):
     최초에 else(GET) 로 빈 폼을 전달함. render
     그리고 폼 전송을 하면 POST로 저장되서 redirect 됨.
     """
-
+    book = get_object_or_404(Book, pk=book_id)
     messages.error(request, 'zzzzzzzzz')
+
     if request.method == 'POST':
-        form = BookBorrowForm(request.POST)
+        form = BorrowForm(request.POST)
         if form.is_valid():
-            book = form.save(commit=False)
-            book.borrow_date = timezone.now()
-            book.save()
-            return redirect('community:index')
+            borrow = form.save(commit=False)
+            borrow.borrow_date = timezone.now()
+            borrow.manager = request.user
+            borrow.save()
+            return redirect('index')
     else:
-        book = get_object_or_404(Book, pk=book_id)
-        messages.error(request, book_id, book.title)
-        if book.title:
-            form = BookBorrowForm(instance=book)
-        else:
-            form = BookBorrowForm()
+        form = BorrowForm()
 
     context = {'form' : form}
     return render(request, 'community/book_form.html', context)
