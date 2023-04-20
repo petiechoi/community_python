@@ -3,6 +3,7 @@
 <table class="table" xmlns="http://www.w3.org/1999/html">
     <thead>
     <tr class="text-center thead-dark">
+        <th style="width:10%">상태</th>
         <th style="width:50%">책제목</th>
         <th>저자</th>
         <th>출판사</th>
@@ -15,7 +16,14 @@
     {% if book_list %}
         {% for book in book_list %}
         <tr class="text-center">
-            <td><a href="#" id = "borrow" class = "borrow" data-title={{ book}}> {{ book.title }}</a> </td>
+            <td>
+                {%if book.borrower %}
+                    대여중
+                {% else %}
+                    대기중
+                {% endif %}
+            </td>
+            <td><a href="#" class = "borrow" data-uri="{% url 'community:book_borrow' book.id%}"> {{ book.title }}</a> </td>
             <td>{{ book.author }}</td>
             <td>{{ book.publisher }}</td>
             <td>
@@ -34,7 +42,6 @@
             </td>
         </tr>
         {% endfor %}
-    </ul>
     {% else %}
     <tr>
         <td colspan="3">도서 리스트가 없습니다.</td>
@@ -49,7 +56,8 @@
     $(document).ready(function(){
         $(".borrow").on('click', function() {
             let result = "'" + this.innerText + "'" + "을(를) 대여하시겠습니까?";
-            confirm(result);
+            if(confirm(result))
+                location.href = $(this).data('uri');
         });
     });
 </script>
