@@ -17,32 +17,33 @@
         {% for book in book_list %}
         <tr class="text-center">
             <td>
-                {%if book.borrow_set.count %}
+                {%if book.borrow %}
                     대여중
                 {% else %}
                     대기중
                 {% endif %}
             </td>
-            <td><a href="#" class = "borrow" data-uri="{% url 'community:book_borrow' book.id%}"> {{ book.title }}</a> </td>
+            <td>
+                {% if book.borrow %}
+                {{ book.title }}
+                {% else %}
+                <a href="#" class = "borrow" data-uri="{% url 'community:book_borrow' book.id%}"> {{ book.title }}</a>
+                {% endif %}
+            </td>
             <td>{{ book.author }}</td>
             <td>{{ book.publisher }}</td>
             <td>
-                {% for borrow in book.borrow_set.all %}
-                {{ borrow.borrower}}
-                {% endfor %}
-            </td>
-            <td>
-                {% if book.borrow_set.all.borrower %}
-                    {{ book.borrow_set.all.borrower }}
+                {%if book.borrow %}
+                    {{ book.borrow.borrower }}
                 {% endif %}
             </td>
             <td>
-                {% if book.borrow_set.borrow_date %}
-                    {{ book.borrow_set.borrow_date }}
+                {%if book.borrow %}
+                    {{ book.borrow.borrow_date }}
                 {% endif %}
             <td>
-                {% if book.borrow_set.manager %}
-                    {{ book.borrow_set.manager }}
+                {%if book.borrow %}
+                    {{ book.borrow.manager }}
                 {% endif %}
             </td>
         </tr>
