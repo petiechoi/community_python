@@ -12,7 +12,7 @@ class Book(models.Model):
 
 class Borrow(models.Model):
     borrower = models.CharField(max_length=10)
-    borrow_date = models.DateTimeField()
+    borrow_date = models.DateTimeField(auto_now=True)
     manager = models.ForeignKey(User, on_delete=models.PROTECT, max_length=10)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 

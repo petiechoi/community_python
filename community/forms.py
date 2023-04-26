@@ -16,7 +16,7 @@ class BorrowForm(forms.ModelForm):
         model = Borrow
         fields = ['borrower']
         labels = {
-            'content' : '대여자',
+            'borrower' : '이름',
         }
 
 # class BookBorrowForm(forms.ModelForm):

@@ -17,7 +17,7 @@
         {% for book in book_list %}
         <tr class="text-center">
             <td>
-                {%if book.borrower %}
+                {%if book.borrow_set.count %}
                     대여중
                 {% else %}
                     대기중
@@ -27,17 +27,22 @@
             <td>{{ book.author }}</td>
             <td>{{ book.publisher }}</td>
             <td>
-                {% if book.borrower %}
-                    {{ book.borrower }}
+                {% for borrow in book.borrow_set.all %}
+                {{ borrow.borrower}}
+                {% endfor %}
+            </td>
+            <td>
+                {% if book.borrow_set.all.borrower %}
+                    {{ book.borrow_set.all.borrower }}
                 {% endif %}
             </td>
             <td>
-                {% if book.borrow_date %}
-                    {{ book.borrow_date }}
+                {% if book.borrow_set.borrow_date %}
+                    {{ book.borrow_set.borrow_date }}
                 {% endif %}
             <td>
-                {% if book.manager %}
-                    {{ book.manager }}
+                {% if book.borrow_set.manager %}
+                    {{ book.borrow_set.manager }}
                 {% endif %}
             </td>
         </tr>

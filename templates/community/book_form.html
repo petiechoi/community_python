@@ -20,31 +20,29 @@
             <div class="form-group">
                 <label>이름</label>
                 <input type="text" class="form-control" name="borrower" id="borrower"
-                       value="{{ form.borrower.value | default_if_none:'' }}">
+                       value="{{ book.borrower.value | default_if_none:'' }}">
             </div>
             <div class="form-group">
                 <label>이메일</label>
-                <input type="email" class="form-control" name="email" id="email"
-                       value="{{ form.email.value | default_if_none:'' }}">
+                <input type="email" class="form-control">
             </div>
             <div class="form-group">
                 <label>도서명</label>
-                <p>
-                    {{ form.title }}
-                    {{ form.title.value }}
+                <h4>
+                    {{ book.title }}
+                    {{ book.title.value }}
                     {%if book %}
-                    {{ form.title }}
+                    {{ book.title }}
                     {% endif %}
-                </p>
+                </h4>
             </div>
             <div class="form-group">
                 <label>출판사</label>
-                <p>
-                    {{ form.publisher }}
-                    {%if form %}
-                    {{ form.publisher }}
+                <h5>
+                    {%if book %}
+                    {{ book.publisher }}
                     {% endif %}
-                </p>
+                </h5>
             </div>
             <input type="submit" value="대여신청" class="btn btn-primary">
         </article>

@@ -20,18 +20,16 @@ def book_borrow(request, book_id):
     그리고 폼 전송을 하면 POST로 저장되서 redirect 됨.
     """
     book = get_object_or_404(Book, pk=book_id)
-    messages.error(request, 'zzzzzzzzz')
-
     if request.method == 'POST':
         form = BorrowForm(request.POST)
         if form.is_valid():
             borrow = form.save(commit=False)
-            borrow.borrow_date = timezone.now()
+            borrow.book = book
             borrow.manager = request.user
             borrow.save()
             return redirect('index')
     else:
         form = BorrowForm()
 
-    context = {'form' : form}
+    context = {'form' : form, 'book' : book}
     return render(request, 'community/book_form.html', context)
