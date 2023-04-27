@@ -3,8 +3,8 @@
 <table class="table" xmlns="http://www.w3.org/1999/html">
     <thead>
     <tr class="text-center thead-dark">
-        <th style="width:10%">상태</th>
-        <th style="width:50%">책제목</th>
+        <th style=>상태</th>
+        <th style="width:40%">책제목</th>
         <th>저자</th>
         <th>출판사</th>
         <th>대여자</th>
@@ -18,9 +18,9 @@
         <tr class="text-center">
             <td>
                 {%if book.borrow %}
-                    대여중
+                <span class="badge rounded-pill bg-secondary">대여중</span>
                 {% else %}
-                    대기중
+                    <span class="badge rounded-pill bg-success">대여 가능</span>
                 {% endif %}
             </td>
             <td>
