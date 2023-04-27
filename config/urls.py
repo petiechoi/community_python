@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("community/", include('community.urls')),
     path("", views.index, name='index'),
+    path('common/', include('common.urls')),
 ]
