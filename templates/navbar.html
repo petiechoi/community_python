@@ -17,13 +17,13 @@
                 {% endif %}
             </li>
             <li>
-                <a class="nav-link" href="#">도서목록</a>
+                <a class="nav-link" href="{% url 'index' %}">도서목록</a>
             </li>
             <li>
                 <a class="nav-link" href="#">사내문서</a>
             </li>
             <li>
-                <a class="nav-link" href="#">준비중</a>
+                <a class="nav-link" href="{% url 'community:book_listmng' %}">관리자</a>
             </li>
         </ul>
     </div>

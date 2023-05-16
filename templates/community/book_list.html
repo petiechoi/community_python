@@ -1,60 +1,103 @@
 {% extends 'base.html' %}
 {% block content %}
-<table class="table" xmlns="http://www.w3.org/1999/html">
-    <thead>
-    <tr class="text-center thead-dark">
-        <th style=>상태</th>
-        <th style="width:40%">책제목</th>
-        <th>저자</th>
-        <th>출판사</th>
-        <th>대여자</th>
-        <th>대여일시</th>
-        <th>담당자</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if book_list %}
+<section class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="text-center thead-dark">
+            <th>상태</th>
+            <th style="width:35%">책제목</th>
+            <th>저자</th>
+            <th>출판사</th>
+            <th>대여자</th>
+            <th>대여일시</th>
+            <th>담당자</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if book_list %}
         {% for book in book_list %}
         <tr class="text-center">
             <td>
                 {%if book.borrow %}
-                <span class="badge rounded-pill bg-secondary">대여중</span>
+                    {%if book.borrow.state %}
+                        <span class="badge rounded-pill bg-danger">대여중</span>
+                    {% else %}
+                        <span class="badge rounded-pill bg-warning">대여 신청</span>
+                    {% endif %}
                 {% else %}
                     <span class="badge rounded-pill bg-success">대여 가능</span>
-                {% endif %}
+                {% endif%}
             </td>
             <td>
-                {% if book.borrow %}
+                {% if book.borrow.state %}
                 {{ book.title }}
                 {% else %}
-                <a href="#" class = "borrow" data-uri="{% url 'community:book_borrow' book.id%}"> {{ book.title }}</a>
+                <a href="#" class="borrow" data-uri="{% url 'community:book_borrow' book.id%}"> {{ book.title }}</a>
                 {% endif %}
             </td>
             <td>{{ book.author }}</td>
             <td>{{ book.publisher }}</td>
             <td>
                 {%if book.borrow %}
-                    {{ book.borrow.borrower }}
+                {{ book.borrow.borrower }}
                 {% endif %}
             </td>
             <td>
                 {%if book.borrow %}
-                    {{ book.borrow.borrow_date }}
+                {{ book.borrow.borrow_date }}
                 {% endif %}
             <td>
                 {%if book.borrow %}
-                    {{ book.borrow.manager }}
+                    {{ book.borrow.manager | default_if_none:'' }}
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
-    {% else %}
-    <tr>
-        <td colspan="3">도서 리스트가 없습니다.</td>
-    </tr>
-    {% endif %}
-    </tbody>
-</table>
+        {% else %}
+        <tr>
+            <td colspan="3">도서 리스트가 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <!-- 페이징 처리 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전 페이지 -->
+        {% if book_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" data-page="{{ book_list.previous_page_number }}" href="#">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지 리스트 -->
+        {% for page_number in book_list.paginator.page_range %}
+        {% if page_number >= book_list.number|add:-5 and page_number <= book_list.number|add:5 %}
+            {% if page_number == book_list.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link"  href="?page={{ page_number }}"> {{ page_number }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음 페이지 -->
+        {% if book_list.has_next%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{book_list.next_page_number}}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+</section>
 
 {% endblock %}
 {% block script %}

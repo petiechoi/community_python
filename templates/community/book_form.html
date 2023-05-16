@@ -4,6 +4,7 @@
 <section class="container">     <!-- 나중에 변경해도 됨 -->
     <h5 class="my-3 border-bottom pb-2">도서 대여신청</h5>
     <form method="post" class="post-form my-3">
+        {% csrf_token %}
         <!-- 오류 표시 Start -->
         {% if form.errors %}
         <div class="alert alert-danger" role="alert">
@@ -29,8 +30,6 @@
             <div class="form-group">
                 <label>도서명</label>
                 <h4>
-                    {{ book.title }}
-                    {{ book.title.value }}
                     {%if book %}
                     {{ book.title }}
                     {% endif %}

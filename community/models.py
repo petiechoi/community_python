@@ -1,3 +1,5 @@
+from collections import deque
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -12,9 +14,10 @@ class Book(models.Model):
 
 class Borrow(models.Model):
     borrower = models.CharField(max_length=10)
-    borrow_date = models.DateTimeField(auto_now=True)
-    manager = models.ForeignKey(User, on_delete=models.PROTECT, max_length=10)
+    borrow_date = models.DateTimeField(auto_now_add=True)
+    manager = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT, max_length=10)
     book = models.OneToOneField(Book, on_delete=models.RESTRICT)
+    state = models.BooleanField(default=True)
 
     def __str__(self):
         return self.borrower

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="text-center thead-dark">
+            <th>상태</th>
+            <th style="width:40%">책제목</th>
+            <th>저자</th>
+            <th>출판사</th>
+            <th>대여자</th>
+            <th>대여일시</th>
+            <th>비고</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if borrowlist %}
+        {% for borrow in borrowlist %}
+            {% if borrow.state %}
+        <tr class="tr-mng-next text-center pointer mouseinout" value="check-out"
+            data-uri="{% url 'community:book_listmng_sign' borrow.id%}">
+            <td>
+                <span class="badge rounded-pill bg-danger">대여중</span></td>
+            {% else %}
+        <tr class="tr-mng-next text-center pointer mouseinout" value="check-in"
+            data-uri="{% url 'community:book_listmng_sign' borrow.id%}">
+            <td>
+                <span class="badge rounded-pill bg-warning">대여 신청</span></td>
+            {% endif %}
+            <td>{{ borrow.book.title }}</td>
+            <td>{{ borrow.book.author }}</td>
+            <td>{{ borrow.book.publisher }}</td>
+            <td>{{ borrow.borrower }}</td>
+            <td>{{ borrow.borrow_date }}</td>
+            <td>
+                <a href="#" class="tr-mng-delete" data-uri="{% url 'community:book_listmng_sign_del' borrow.id%}">
+                    {% if not borrow.state %} 삭제
+                    {% endif%}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">대여 리스트가 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+$(function () {
+        $('.tr-mng-delete').click(function() {
+           Swal.fire({
+            icon: 'warning',
+            title: '삭제 하시겠습니까?',
+            text: '삭제하시면 다시 복구시킬 수 없습니다.',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then((result) =>{
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'center-center',
+                    showConfirmButton: false,
+                    timer: 1000,
+                })
+                if(result.value)
+                {
+                Toast.fire({
+                    icon: 'success',
+                    title: '정상적으로 삭제되었습니다.'
+                }).then((result) => {
+                    location.href = $(this).data('uri');
+                });
+            }
+        })
+        event.stopPropagation();
+        });
+
+        $('.tr-mng-next').click(function() {
+            var value = $(this).attr("value");
+        if(value == "check-in")
+            value = "대여승인";
+        else
+            value = "반납";
+        var str = value + ' 하시겠습니까?';
+        if(confirm(str))
+            location.href = $(this).data('uri');
+        });
+});
+</script>
+{% endblock %}
