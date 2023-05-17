@@ -51,10 +51,11 @@ def book_borrow(request, book_id):
 @login_required(login_url='common:login')
 @staff_member_required
 def book_listmng(request):
-    '''Borrow_list = Borrow.objects.filter(state=False)'''
+    page = request.GET.get('page', '1') # 페이지
     Borrowlist = Borrow.objects.order_by('borrow_date')
-    '''Borrowlist = Borrow.objects.all()'''
-    context = {'borrowlist': Borrowlist}
+    paginator = Paginator(Borrowlist, 10)
+    page_obj = paginator.get_page(page)
+    context = {'borrowlist': page_obj}
     return render(request, 'community/book_listmng.html', context)
 
 

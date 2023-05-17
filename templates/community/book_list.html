@@ -65,7 +65,7 @@
         <!-- 이전 페이지 -->
         {% if book_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ book_list.previous_page_number }}" href="#">이전</a>
+            <a class="page-link" href="?page={{ book_list.previous_page_number }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
