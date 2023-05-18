@@ -22,9 +22,11 @@
             <li>
                 <a class="nav-link" href="#">사내문서</a>
             </li>
+            {% if user.is_staff %}
             <li>
                 <a class="nav-link" href="{% url 'community:book_listmng' %}">관리자</a>
             </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

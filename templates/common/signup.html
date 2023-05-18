@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="container my-3">
+<section class="container card mcard">
+    <section class="card-body mcard-body">
     <article class="row my-3">
         <div class="col-4">
             <h4>회원가입</h4>
@@ -28,7 +29,8 @@
             <label for="email">이메일</label>
             <input type="text" class="form-control" name="email" id="email" value="{{ form.email.value|default_if_none:''}}">
         </article>
-        <button type="submit" class="btn btn-primary">생성하기</button>
+        <button type="submit" class="btn btn-primary mt-4">생성하기</button>
     </form>
+    </section>
 </section>
 {% endblock %}

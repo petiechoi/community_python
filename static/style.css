@@ -30,6 +30,17 @@ a{
     color: black;
 }
 
+.mcard{
+    align-items: center;
+    max-width: 500px;
+    margin-top:100px;
+}
+
+.mcard-body{
+    min-width:500px;
+    padding: 1.5rem 1.5rem;
+}
+
 .container-modim{
     padding-right: 1.625rem !important;
     padding-left: 1.625rem !important;
