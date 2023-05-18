@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <section class="container my-3">
+    <section class="mb-3">
+        <div class="card mb-4">
+            <div class="card-body text-black">문서</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-black stretched-link" href="/community/download?path=community/excel/모디엠_도서관리목록_20210909.xlsb">도서관리목록</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-3">
     <table class="table">
         <thead>
         <tr class="text-center thead-dark">
@@ -97,6 +107,7 @@
         </li>
         {% endif %}
     </ul>
+    </section>
 </section>
 
 {% endblock %}

@@ -8,6 +8,9 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
+import os
+from django.conf import settings
+from django.http import HttpResponse
 def index(request):
     page = request.GET.get('page', '1') # 페이지
     book_list = Book.objects.order_by('title')
@@ -80,3 +83,17 @@ def book_listmng_sign_del(request, borrow_id):
     borrow.delete()
     return redirect('community:book_listmng')
 
+
+
+def file_download(request):
+    path = request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+
+    if os.path.exists(file_path):
+        binary_file = open(file_path, 'rb')
+        response = HttpResponse(binary_file.read(), content_type="application/vnd.ms-excel; charset=utf-8")
+        response['Content-Disposition'] = 'attachment; filename="도서관리목록.xls"'
+        return response
+    else:
+        message = '알 수 없는 오류가 발행하였습니다.'
+        return HttpResponse("<script>alert('"+ message +"');history.back()'</script>")
